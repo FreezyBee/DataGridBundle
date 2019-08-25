@@ -37,10 +37,10 @@
   "require-dev": {
     "doctrine/doctrine-bundle": "^1.10",
     "phpstan/phpstan-shim": "^0.11",
-    "phpunit/phpunit": "^7.5 || ^8.0",
+    "phpunit/phpunit": "^7.5 || ~8.2.0",
     "squizlabs/php_codesniffer": "^3.4",
     "symfony/framework-bundle": "^4.2",
-    "symfony/panther": "^0.4",
+    "symfony/panther": "^0.5",
     "symfony/phpunit-bridge": "^4.2",
     "symfony/twig-bundle": "^4.2"
   }
