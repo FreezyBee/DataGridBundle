@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace FreezyBee\DataGridBundle;
 
-use Doctrine\ORM\QueryBuilder;
 use FreezyBee\DataGridBundle\Column\ActionColumn;
 use FreezyBee\DataGridBundle\Column\Column;
+use FreezyBee\DataGridBundle\DataSource\DataSourceInterface;
 
 /**
  * @author Jakub Janata <jakubjanata@gmail.com>
  */
 class DataGridConfig
 {
-    /** @var QueryBuilder|array|null */
+    /** @var DataSourceInterface */
     private $dataSource;
 
     /** @var Column[] */
@@ -41,7 +41,7 @@ class DataGridConfig
     private $allowExport;
 
     /**
-     * @param array|QueryBuilder|null $dataSource
+     * @param DataSourceInterface $dataSource
      * @param Column[] $columns
      * @param ActionColumn $actionColumn
      * @param callable|null $customExportCallback
@@ -51,7 +51,7 @@ class DataGridConfig
      * @param string[] $allowExport
      */
     public function __construct(
-        $dataSource,
+        DataSourceInterface $dataSource,
         array $columns,
         ActionColumn $actionColumn,
         ?callable $customExportCallback,
@@ -71,9 +71,9 @@ class DataGridConfig
     }
 
     /**
-     * @return array|QueryBuilder|null
+     * @return DataSourceInterface
      */
-    public function getDataSource()
+    public function getDataSource(): DataSourceInterface
     {
         return $this->dataSource;
     }

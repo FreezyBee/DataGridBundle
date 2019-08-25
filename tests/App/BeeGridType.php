@@ -7,6 +7,8 @@ namespace FreezyBee\DataGridBundle\Tests\App;
 use DateTime;
 use FreezyBee\DataGridBundle\DataGridBuilder;
 use FreezyBee\DataGridBundle\DataGridTypeInterface;
+use FreezyBee\DataGridBundle\DataSource\ArrayDataSource;
+use Symfony\Component\PropertyAccess\PropertyAccessor;
 
 /**
  * @author Jakub Janata <jakubjanata@gmail.com>
@@ -18,11 +20,16 @@ class BeeGridType implements DataGridTypeInterface
      */
     public function buildGrid(DataGridBuilder $builder): void
     {
-        $builder->setDataSource([
-            ['a' => 'name9', 'b' => new DateTime('2019-03-01'), 'c' => 1, 'd' => true],
-            ['a' => 'name2', 'b' => new DateTime('2019-02-01'), 'c' => 9, 'd' => true],
-            ['a' => 'name3', 'b' => new DateTime('2019-01-01'), 'c' => 0, 'd' => false],
-        ]);
+        $dataSource = new ArrayDataSource(
+            [
+                ['a' => 'name9', 'b' => new DateTime('2019-03-01'), 'c' => 1, 'd' => true],
+                ['a' => 'name2', 'b' => new DateTime('2019-02-01'), 'c' => 9, 'd' => true],
+                ['a' => 'name3', 'b' => new DateTime('2019-01-01'), 'c' => 0, 'd' => false],
+            ],
+            new PropertyAccessor()
+        );
+
+        $builder->setDataSource($dataSource);
 
         $builder->addText('a', 'A')
             ->setFilterable()

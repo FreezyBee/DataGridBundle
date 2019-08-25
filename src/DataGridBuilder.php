@@ -4,20 +4,21 @@ declare(strict_types=1);
 
 namespace FreezyBee\DataGridBundle;
 
-use Doctrine\ORM\QueryBuilder;
 use FreezyBee\DataGridBundle\Column\Action;
 use FreezyBee\DataGridBundle\Column\ActionColumn;
 use FreezyBee\DataGridBundle\Column\Column;
 use FreezyBee\DataGridBundle\Column\DateTimeColumn;
 use FreezyBee\DataGridBundle\Column\LinkColumn;
 use FreezyBee\DataGridBundle\Column\TextColumn;
+use FreezyBee\DataGridBundle\DataSource\DataSourceInterface;
+use FreezyBee\DataGridBundle\Exception\DataGridException;
 
 /**
  * @author Jakub Janata <jakubjanata@gmail.com>
  */
 class DataGridBuilder
 {
-    /** @var QueryBuilder|array|null */
+    /** @var DataSourceInterface|null */
     private $dataSource;
 
     /** @var Column[] */
@@ -52,10 +53,10 @@ class DataGridBuilder
     }
 
     /**
-     * @param array|QueryBuilder $dataSource
+     * @param DataSourceInterface $dataSource
      * @return DataGridBuilder
      */
-    public function setDataSource($dataSource): self
+    public function setDataSource(DataSourceInterface $dataSource): self
     {
         $this->dataSource = $dataSource;
         return $this;
@@ -164,6 +165,10 @@ class DataGridBuilder
      */
     public function generateConfig(): DataGridConfig
     {
+        if ($this->dataSource === null) {
+            throw new DataGridException('Please call ' . DataGridBuilder::class . '::setDataSource()');
+        }
+
         return new DataGridConfig(
             $this->dataSource,
             $this->columns,
