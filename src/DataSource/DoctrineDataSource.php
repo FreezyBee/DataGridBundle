@@ -21,6 +21,9 @@ class DoctrineDataSource implements DataSourceInterface
     /** @var QueryBuilder */
     private $queryBuilder;
 
+    /** @var bool */
+    private $usePaginator;
+
     /** @var string */
     private $rootAlias;
 
@@ -29,10 +32,12 @@ class DoctrineDataSource implements DataSourceInterface
 
     /**
      * @param QueryBuilder $queryBuilder
+     * @param bool $usePaginator
      */
-    public function __construct(QueryBuilder $queryBuilder)
+    public function __construct(QueryBuilder $queryBuilder, bool $usePaginator = true)
     {
         $this->queryBuilder = $queryBuilder;
+        $this->usePaginator = $usePaginator;
         $this->rootAlias = $this->queryBuilder->getRootAliases()[0];
     }
 
@@ -52,7 +57,12 @@ class DoctrineDataSource implements DataSourceInterface
      */
     public function getFilteredCount(): int
     {
-        return (new Paginator($this->queryBuilder))->count();
+        if ($this->usePaginator) {
+            return (new Paginator($this->queryBuilder))->count();
+        }
+
+        $qb = clone $this->queryBuilder;
+        return (int) $qb->select("COUNT ($this->rootAlias.id)")->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -122,7 +132,11 @@ class DoctrineDataSource implements DataSourceInterface
      */
     public function getData(): array
     {
-        return iterator_to_array(new Paginator($this->queryBuilder));
+        if ($this->usePaginator) {
+            return iterator_to_array(new Paginator($this->queryBuilder));
+        }
+
+        return $this->queryBuilder->getQuery()->getResult();
     }
 
     /**
