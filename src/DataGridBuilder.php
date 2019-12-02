@@ -166,7 +166,7 @@ class DataGridBuilder
     public function generateConfig(): DataGridConfig
     {
         if ($this->dataSource === null) {
-            throw new DataGridException('Please call ' . DataGridBuilder::class . '::setDataSource()');
+            throw new DataGridException('Please call ' . self::class . '::setDataSource()');
         }
 
         return new DataGridConfig(

@@ -91,7 +91,7 @@ class DataGridConfig
      */
     public function getRenderedColumns(): array
     {
-        return array_filter($this->columns, function (Column $column) {
+        return array_filter($this->columns, static function (Column $column) {
             return $column->isAllowRender();
         });
     }

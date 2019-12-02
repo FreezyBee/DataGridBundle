@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace FreezyBee\DataGridBundle\Tests\E2E;
 
 use FreezyBee\DataGridBundle\Tests\App\BeeGridType;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Client;
 use Symfony\Component\Panther\PantherTestCase;
 
 /**
@@ -81,7 +81,7 @@ class SmokeTest extends PantherTestCase
             ],
         ];
 
-        /** @var Client $client */
+        /** @var KernelBrowser $client */
         $client = self::createClient();
         $client->request('GET', '/datagrid/export/csv/' . BeeGridType::class, $query);
 
@@ -97,7 +97,7 @@ class SmokeTest extends PantherTestCase
             'attachment; filename="export.csv"',
             self::getHeader($response, 'Content-Disposition')
         );
-        self::assertStringContainsString($expected, $response->getContent());
+        self::assertStringContainsString($expected, $response->getContent() ?: '');
     }
 
     private static function getHeader(Response $response, string $name): string
