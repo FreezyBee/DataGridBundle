@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  */
 class ChainExporter implements DataGridExporterInterface
 {
-    /** @var array */
+    /** @var DataGridExporterInterface[] */
     private $exporters;
 
     /**

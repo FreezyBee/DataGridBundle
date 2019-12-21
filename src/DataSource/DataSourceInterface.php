@@ -40,7 +40,7 @@ interface DataSourceInterface
     public function applyLimitAndOffset(int $limit, int $offset): void;
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getData(): array;
 }

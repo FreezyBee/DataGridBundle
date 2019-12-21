@@ -83,7 +83,7 @@ class DataGrid
      * @param Request $request
      * @param bool $export
      * @param string $format
-     * @return array
+     * @return mixed[]
      */
     private function processData(Request $request, bool $export, string $format): array
     {

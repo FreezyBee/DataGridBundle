@@ -50,7 +50,7 @@ abstract class Column
     /** @var bool */
     protected $allowRender = true;
 
-    /** @var array */
+    /** @var mixed[] */
     protected $templateParams = [];
 
     /**
@@ -134,7 +134,7 @@ abstract class Column
     }
 
     /**
-     * @param array $options
+     * @param mixed[] $options
      * @return Column
      */
     public function setSelectFilter(array $options): self
@@ -238,7 +238,7 @@ abstract class Column
 
     /**
      * @param string $customTemplate
-     * @param array $params
+     * @param mixed[] $params
      * @return Column
      */
     public function setCustomTemplate(string $customTemplate, array $params = []): self
@@ -334,7 +334,7 @@ abstract class Column
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getTemplateParams(): array
     {
@@ -342,7 +342,7 @@ abstract class Column
     }
 
     /**
-     * @param array $params
+     * @param mixed[] $params
      */
     public function setTemplateParams(array $params): void
     {
@@ -352,7 +352,7 @@ abstract class Column
     /**
      * @param mixed $row
      * @param Environment $engine
-     * @param array $params
+     * @param mixed[] $params
      * @return string|null
      */
     public function renderContent($row, Environment $engine, array $params = []): ?string

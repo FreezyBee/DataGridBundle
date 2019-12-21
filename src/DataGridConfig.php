@@ -137,7 +137,7 @@ class DataGridConfig
     }
 
     /**
-     * @return array
+     * @return string[]
      */
     public function getAllowExport(): array
     {

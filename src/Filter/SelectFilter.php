@@ -9,11 +9,11 @@ namespace FreezyBee\DataGridBundle\Filter;
  */
 class SelectFilter extends Filter
 {
-    /** @var array */
+    /** @var mixed[] */
     private $options;
 
     /**
-     * @param array $options
+     * @param mixed[] $options
      */
     public function __construct(array $options)
     {
@@ -21,7 +21,7 @@ class SelectFilter extends Filter
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getOptions(): array
     {

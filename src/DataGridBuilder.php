@@ -100,7 +100,7 @@ class DataGridBuilder
     /**
      * @param string $route
      * @param string $label
-     * @param array $params
+     * @param mixed[] $params
      * @return Action
      */
     public function addAction(string $route, string $label, array $params = []): Action

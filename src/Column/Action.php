@@ -21,13 +21,13 @@ class Action
     /** @var string|null */
     private $class;
 
-    /** @var array */
+    /** @var mixed[] */
     private $params;
 
     /**
      * @param string $route
      * @param string $label
-     * @param array $params
+     * @param mixed[] $params
      */
     public function __construct(string $route, string $label, array $params)
     {
@@ -53,7 +53,7 @@ class Action
     }
 
     /**
-     * @return array
+     * @return mixed[]
      */
     public function getParams(): array
     {

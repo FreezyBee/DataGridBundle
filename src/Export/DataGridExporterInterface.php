@@ -13,7 +13,7 @@ interface DataGridExporterInterface
 {
     /**
      * @param string $gridType
-     * @param array $data
+     * @param mixed[] $data
      * @param string $format
      * @return Response
      */

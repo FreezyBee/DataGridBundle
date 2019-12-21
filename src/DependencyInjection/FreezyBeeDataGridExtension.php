@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 class FreezyBeeDataGridExtension extends Extension
 {
     /**
-     * {@inheritdoc}
+     * @param mixed[] $configs
      */
     public function load(array $configs, ContainerBuilder $container): void
     {

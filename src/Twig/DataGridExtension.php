@@ -39,7 +39,7 @@ class DataGridExtension extends AbstractExtension
     }
 
     /**
-     * @return array
+     * @return TwigFunction[]
      */
     public function getFunctions(): array
     {
@@ -146,7 +146,7 @@ class DataGridExtension extends AbstractExtension
 
     /**
      * @param Environment $engine
-     * @param array $options
+     * @param mixed[] $options
      * @param string $name
      * @param int $index
      * @return string

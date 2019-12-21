@@ -19,14 +19,14 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
  */
 class ArrayDataSource implements DataSourceInterface
 {
-    /** @var array */
+    /** @var mixed[] */
     private $data;
 
     /** @var PropertyAccessorInterface */
     private $propertyAccessor;
 
     /**
-     * @param array $data
+     * @param mixed[] $data
      * @param PropertyAccessorInterface $propertyAccessor
      */
     public function __construct(array $data, PropertyAccessorInterface $propertyAccessor)
