@@ -42,7 +42,7 @@ class DataGridBuilder
     /** @var int */
     private $defaultPerPage = 10;
 
-    /** @var string[] */
+    /** @var array<string, string> - name => label */
     private $allowExport = [];
 
     /**
@@ -150,7 +150,7 @@ class DataGridBuilder
     }
 
     /**
-     * @param string[] $allowExport
+     * @param array<string, string> $allowExport - name => label
      * @return DataGridBuilder
      */
     public function setAllowExport(array $allowExport = []): self

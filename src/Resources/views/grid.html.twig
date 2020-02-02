@@ -99,8 +99,8 @@
         const filterHeader = container.find('.dataTables_filter');
         filterHeader.html('');
 
-        {% for format in allowExport %}
-            const exportBtn{{ format }} = $('<a href="#">Export ({{ format }})</a>').on('click', function (e) {
+        {% for format, label in allowExport %}
+            const exportBtn{{ format }} = $('<a href="#">{{ label }}</a>').on('click', function (e) {
                 e.preventDefault();
                 window.open('{{ path('datagrid_export', {name: name, format: format}) }}?' + $.param(table.ajax.params()), '_blank');
             });

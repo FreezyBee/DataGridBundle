@@ -49,6 +49,6 @@ class BeeGridType implements DataGridTypeInterface
             ->setAllowRender(false)
             ->setAllowExport(['csv']);
 
-        $builder->setAllowExport(['csv']);
+        $builder->setAllowExport(['csv' => 'Export CSV']);
     }
 }
