@@ -27,6 +27,9 @@ class DoctrineDataSource implements DataSourceInterface
     /** @var string */
     private $rootAlias;
 
+    /** @var string */
+    private $primaryKey = 'id';
+
     /** @var int */
     private $paramCounter = 0;
 
@@ -41,13 +44,23 @@ class DoctrineDataSource implements DataSourceInterface
         $this->rootAlias = $this->queryBuilder->getRootAliases()[0];
     }
 
+    public function getPrimaryKey(): string
+    {
+        return $this->primaryKey;
+    }
+
+    public function setPrimaryKey(string $primaryKey): void
+    {
+        $this->primaryKey = $primaryKey;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function getTotalCount(): int
     {
         return (int) (clone $this->queryBuilder)
-            ->select("COUNT ($this->rootAlias.id)")
+            ->select("COUNT ($this->rootAlias.$this->primaryKey)")
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -62,7 +75,7 @@ class DoctrineDataSource implements DataSourceInterface
         }
 
         $qb = clone $this->queryBuilder;
-        return (int) $qb->select("COUNT ($this->rootAlias.id)")->getQuery()->getSingleScalarResult();
+        return (int) $qb->select("COUNT ($this->rootAlias.$this->primaryKey)")->getQuery()->getSingleScalarResult();
     }
 
     /**
