@@ -21,11 +21,13 @@ class BeeGridType implements DataGridTypeInterface
     public function buildGrid(DataGridBuilder $builder): void
     {
         $dataSource = new ArrayDataSource(
-            [
-                ['a' => 'name9', 'b' => new DateTime('2019-03-01'), 'c' => 1, 'd' => true],
-                ['a' => 'name2', 'b' => new DateTime('2019-02-01'), 'c' => 9, 'd' => true],
-                ['a' => 'name3', 'b' => new DateTime('2019-01-01'), 'c' => 0, 'd' => false],
-            ],
+            static function () {
+                return [
+                    ['a' => 'name9', 'b' => new DateTime('2019-03-01'), 'c' => 1, 'd' => true],
+                    ['a' => 'name2', 'b' => new DateTime('2019-02-01'), 'c' => 9, 'd' => true],
+                    ['a' => 'name3', 'b' => new DateTime('2019-01-01'), 'c' => 0, 'd' => false],
+                ];
+            },
             new PropertyAccessor()
         );
 

@@ -20,18 +20,17 @@ use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
 class ArrayDataSource implements DataSourceInterface
 {
     /** @var mixed[] */
-    private $data;
+    private $data = [];
+
+    /** @var callable */
+    private $callback;
 
     /** @var PropertyAccessorInterface */
     private $propertyAccessor;
 
-    /**
-     * @param mixed[] $data
-     * @param PropertyAccessorInterface $propertyAccessor
-     */
-    public function __construct(array $data, PropertyAccessorInterface $propertyAccessor)
+    public function __construct(callable $callback, PropertyAccessorInterface $propertyAccessor)
     {
-        $this->data = $data;
+        $this->callback = $callback;
         $this->propertyAccessor = $propertyAccessor;
     }
 
@@ -40,6 +39,7 @@ class ArrayDataSource implements DataSourceInterface
      */
     public function getTotalCount(): int
     {
+        $this->data = call_user_func($this->callback);
         return count($this->data);
     }
 
