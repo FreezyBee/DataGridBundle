@@ -51,7 +51,7 @@ class Kernel extends \Symfony\Component\HttpKernel\Kernel
      */
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
     {
-        $c->setParameter('kernel.secret', 'x');
+        $c->setParameter('framework.secret', 'x');
         $c->register(AppController::class, AppController::class)
             ->addTag('controller.service_arguments')
             ->setAutowired(true);

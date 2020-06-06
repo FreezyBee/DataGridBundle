@@ -61,7 +61,7 @@ abstract class Column
 
     /**
      * @var callable|null
-     * callable(QueryBuilder $qb, mixed $value)
+     * callable(QueryBuilder $qb, mixed $value) | callable(mixed $item, mixed $value): bool
      */
     protected $customFilterCallback;
 

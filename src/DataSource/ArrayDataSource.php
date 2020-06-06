@@ -80,6 +80,14 @@ class ArrayDataSource implements DataSourceInterface
      */
     public function applyFilter(Column $column, $value): void
     {
+        $filterCallback = $column->getCustomFilterCallback();
+        if (is_callable($filterCallback)) {
+            $this->data = array_filter($this->data, function ($item) use ($filterCallback, $value): bool {
+                return $filterCallback($item, $value);
+            });
+            return;
+        }
+
         $filter = $column->getFilter();
         if ($filter !== null) {
             switch (true) {
