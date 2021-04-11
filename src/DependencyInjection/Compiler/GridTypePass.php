@@ -27,7 +27,7 @@ class GridTypePass implements CompilerPassInterface
         $exporters = [];
         foreach ($container->findTaggedServiceIds('datagrid.exporter') as $id => $tag) {
             if ($id !== ChainExporter::class) {
-                $exporters[] = $container->getDefinition($id);
+                $exporters[] = $container->getDefinition((string) $id);
             }
         }
 

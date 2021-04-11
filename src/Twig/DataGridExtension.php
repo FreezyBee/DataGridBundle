@@ -88,7 +88,7 @@ class DataGridExtension extends AbstractExtension
                     }
 
                     foreach ($qb->getQuery()->getResult() as $row) {
-                        if (method_exists($row, 'getId')) {
+                        if (is_object($row) && method_exists($row, 'getId')) {
                             $items[$labelOrCallback($row)] = $row->getId();
                         }
                     }
