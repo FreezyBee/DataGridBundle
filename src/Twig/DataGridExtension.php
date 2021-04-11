@@ -102,7 +102,7 @@ class DataGridExtension extends AbstractExtension
                         $filterCallback($qb);
                     }
 
-                    $items = array_map('reset', $qb->getQuery()->getArrayResult());
+                    $items = array_map('current', $qb->getQuery()->getArrayResult());
                     $items = array_flip($items);
                 }
 
