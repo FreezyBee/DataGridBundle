@@ -51,7 +51,6 @@ class Kernel extends \Symfony\Component\HttpKernel\Kernel
      */
     protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
     {
-        $c->setParameter('framework.secret', 'x');
         $c->register(AppController::class, AppController::class)
             ->addTag('controller.service_arguments')
             ->setAutowired(true);
@@ -60,6 +59,7 @@ class Kernel extends \Symfony\Component\HttpKernel\Kernel
             ->setAutoconfigured(true);
 
         $c->loadFromExtension('framework', [
+            'secret' => 'x',
             'test' => true,
         ]);
 

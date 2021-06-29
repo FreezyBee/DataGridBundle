@@ -6,34 +6,90 @@ namespace FreezyBee\DataGridBundle\Tests\E2E;
 
 use FreezyBee\DataGridBundle\Tests\App\BeeGridType;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Panther\PantherTestCase;
 
 /**
  * @author Jakub Janata <jakubjanata@gmail.com>
  */
-class SmokeTest extends PantherTestCase
+class SmokeTest extends WebTestCase
 {
     public function testAjax(): void
     {
-        $client = self::createPantherClient();
-        $crawler = $client->request('GET', '/');
+        $client = self::createClient();
 
-        self::assertSame('<title>DataGrid</title>', $crawler->filter('title')->html());
+        $client->request('GET', '/datagrid/ajax/' . BeeGridType::class, self::getQuery());
+        self::assertResponseIsSuccessful();
 
-        $client->waitFor('tbody tr');
+        $content = (string) $client->getResponse()->getContent();
+        $data = json_decode($content, true);
 
-        $expected = '<tbody>';
-        $expected .= '<tr role="row" class="odd"><td class="sorting_1">name9</td><td>1.3.2019</td><td>1</td></tr>';
-        $expected .= '<tr role="row" class="even"><td class="sorting_1">name3</td><td>1.1.2019</td><td>0</td></tr>';
-        $expected .= '<tr role="row" class="odd"><td class="sorting_1">name2</td><td>1.2.2019</td><td>9</td></tr>';
-        $expected .= '</tbody>';
-        self::assertSame($expected, $crawler->filter('tbody')->html());
+        $expected = [
+            'draw' => 1,
+            'recordsTotal' => 3,
+            'recordsFiltered' => 3,
+            'data' => [
+                [
+                    'name9',
+                    '1.3.2019',
+                    '1',
+                ],
+                [
+                    'name3',
+                    '1.1.2019',
+                    '0',
+                ],
+                [
+                    'name2',
+                    '1.2.2019',
+                    '9',
+                ],
+            ],
+        ];
+
+        self::assertSame($expected, $data);
     }
 
     public function testExport(): void
     {
-        $query = [
+        /** @var KernelBrowser $client */
+        $client = self::createClient();
+        $client->request('GET', '/datagrid/export/csv/' . BeeGridType::class, self::getQuery());
+
+        $expected = "A;B;D\n";
+        $expected .= "name9;1.3.2019;Yes\n";
+        $expected .= "name3;1.1.2019;No\n";
+        $expected .= 'name2;1.2.2019;Yes';
+
+        /** @var Response $response */
+        $response = $client->getResponse();
+        self::assertStringContainsString('text/csv', self::getHeader($response, 'Content-Type'));
+        self::assertStringContainsString(
+            'attachment; filename="export.csv"',
+            self::getHeader($response, 'Content-Disposition')
+        );
+        self::assertStringContainsString($expected, $response->getContent() ?: '');
+    }
+
+    private static function getHeader(Response $response, string $name): string
+    {
+        $header = $response->headers->get($name);
+
+        if (is_string($header)) {
+            return $header;
+        }
+
+        // phpstan hack
+        self::assertIsString($header);
+        return '';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private static function getQuery(): array
+    {
+        return [
             'draw' => '1',
             'columns' => [
                 [
@@ -80,36 +136,5 @@ class SmokeTest extends PantherTestCase
                 'regex' => 'false',
             ],
         ];
-
-        /** @var KernelBrowser $client */
-        $client = self::createClient();
-        $client->request('GET', '/datagrid/export/csv/' . BeeGridType::class, $query);
-
-        $expected = "A;B;D\n";
-        $expected .= "name9;1.3.2019;Yes\n";
-        $expected .= "name3;1.1.2019;No\n";
-        $expected .= 'name2;1.2.2019;Yes';
-
-        /** @var Response $response */
-        $response = $client->getResponse();
-        self::assertStringContainsString('text/csv', self::getHeader($response, 'Content-Type'));
-        self::assertStringContainsString(
-            'attachment; filename="export.csv"',
-            self::getHeader($response, 'Content-Disposition')
-        );
-        self::assertStringContainsString($expected, $response->getContent() ?: '');
-    }
-
-    private static function getHeader(Response $response, string $name): string
-    {
-        $header = $response->headers->get($name);
-
-        if (is_string($header)) {
-            return $header;
-        }
-
-        // phpstan hack
-        self::assertIsString($header);
-        return '';
     }
 }
