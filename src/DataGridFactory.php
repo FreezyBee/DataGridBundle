@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace FreezyBee\DataGridBundle;
 
 use FreezyBee\DataGridBundle\Export\DataGridExporterInterface;
-use Psr\Container\ContainerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Twig\Environment;
 
 /**
