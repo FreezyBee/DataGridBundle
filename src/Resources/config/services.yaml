@@ -1,6 +1,8 @@
 services:
   FreezyBee\DataGridBundle\DataGridFactory:
     autowire: true
+    arguments:
+      $container: '@service_container'
 
   FreezyBee\DataGridBundle\Export\:
     resource: '../../Export/*'
