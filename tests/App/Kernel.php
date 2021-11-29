@@ -6,12 +6,12 @@ namespace FreezyBee\DataGridBundle\Tests\App;
 
 use Doctrine\Bundle\DoctrineBundle\DoctrineBundle;
 use FreezyBee\DataGridBundle\FreezyBeeDataGridBundle;
+use Psr\Container\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Bundle\TwigBundle\TwigBundle;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Routing\RouteCollectionBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 /**
  * @author Jakub Janata <jakubjanata@gmail.com>
@@ -23,7 +23,7 @@ class Kernel extends \Symfony\Component\HttpKernel\Kernel
     /**
      * {@inheritdoc}
      */
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         $bundles = [
             FrameworkBundle::class,
@@ -40,7 +40,7 @@ class Kernel extends \Symfony\Component\HttpKernel\Kernel
     /**
      * {@inheritdoc}
      */
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
         $routes->import(__DIR__ . '/../../src/Resources/config/routes.yaml');
         $routes->add('/', AppController::class . '::index');
@@ -49,26 +49,30 @@ class Kernel extends \Symfony\Component\HttpKernel\Kernel
     /**
      * {@inheritdoc}
      */
-    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
+    protected function configureContainer(ContainerConfigurator $container): void
     {
-        $c->register(AppController::class, AppController::class)
-            ->addTag('controller.service_arguments')
-            ->setAutowired(true);
+        $services = $container->services();
 
-        $c->register(BeeGridType::class, BeeGridType::class)
-            ->setAutoconfigured(true);
+        $services->set(AppController::class)
+            ->public()
+            ->autowire();
 
-        $c->loadFromExtension('framework', [
+        $services->set(BeeGridType::class)
+            ->autoconfigure();
+
+        $services->alias(ContainerInterface::class, 'test.service_container');
+
+        $container->extension('framework', [
             'secret' => 'x',
             'test' => true,
         ]);
 
-        $c->loadFromExtension('twig', [
+        $container->extension('twig', [
             'strict_variables' => true,
             'paths' => [__DIR__ . '/templates/'],
         ]);
 
-        $c->loadFromExtension('doctrine', [
+        $container->extension('doctrine', [
             'dbal' => [],
             'orm' => [],
         ]);
