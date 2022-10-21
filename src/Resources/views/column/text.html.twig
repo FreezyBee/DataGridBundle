@@ -4,7 +4,7 @@
         {% if export %}
             {% if value %}{{ 'column.text.bool.yes'|trans([], 'datagrid') }}{% else %}{{ 'column.text.bool.no'|trans([], 'datagrid') }}{% endif %}
         {% else %}
-            {% if value %}<span class="badge badge-success">{{ 'column.text.bool.yes'|trans([], 'datagrid') }}</span>{% else %}<span class="badge badge-danger">{{ 'column.text.bool.no'|trans([], 'datagrid') }}</span>{% endif %}
+            {% if value %}<span class="badge badge-success bg-success">{{ 'column.text.bool.yes'|trans([], 'datagrid') }}</span>{% else %}<span class="badge badge-danger bg-danger">{{ 'column.text.bool.no'|trans([], 'datagrid') }}</span>{% endif %}
         {% endif %}
     {% else %}
         {{ value }}
