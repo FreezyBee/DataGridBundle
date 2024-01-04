@@ -1,6 +1,6 @@
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/|version|/phpunit.xsd"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
         bootstrap="./tests/bootstrap.php"
     >
     <php>
@@ -8,19 +8,15 @@
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled=1"/>
     </php>
 
-    <filter>
-        <whitelist>
+    <source>
+        <include>
             <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
+        </include>
+    </source>
 
     <testsuites>
         <testsuite name="Test Suite">
             <directory>./tests/*</directory>
         </testsuite>
     </testsuites>
-
-    <listeners>
-        <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    </listeners>
 </phpunit>

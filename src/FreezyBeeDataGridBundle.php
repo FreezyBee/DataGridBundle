@@ -6,7 +6,6 @@ namespace FreezyBee\DataGridBundle;
 
 use FreezyBee\DataGridBundle\DependencyInjection\Compiler\GridTypePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Extension\ExtensionInterface;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -21,17 +20,5 @@ class FreezyBeeDataGridBundle extends Bundle
     {
         parent::build($container);
         $container->addCompilerPass(new GridTypePass());
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContainerExtension(): ?ExtensionInterface
-    {
-        if ($this->extension === null) {
-            $this->extension = $this->createContainerExtension();
-        }
-
-        return $this->extension;
     }
 }
