@@ -9,7 +9,7 @@ namespace FreezyBee\DataGridBundle\Filter;
  */
 class SelectEntityFilter extends Filter
 {
-    /** @var string */
+    /** @var class-string */
     private $entityClassName;
 
     /** @var callable|string */
@@ -19,7 +19,7 @@ class SelectEntityFilter extends Filter
     private $filterCallback;
 
     /**
-     * @param string $entityClassName
+     * @param class-string $entityClassName
      * @param string|callable $labelOrCallback
      * @param callable|null $filterCallback
      */
@@ -31,7 +31,7 @@ class SelectEntityFilter extends Filter
     }
 
     /**
-     * @return string
+     * @return class-string
      */
     public function getEntityClassName(): string
     {

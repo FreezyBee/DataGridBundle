@@ -171,7 +171,7 @@ abstract class Column
     }
 
     /**
-     * @param string $entityClassName
+     * @param class-string $entityClassName
      * @param string|callable $labelOrCallback
      * @param callable|null $filterCallback
      * @return Column
