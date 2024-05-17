@@ -96,16 +96,18 @@
             });
         });
 
-        const filterHeader = container.find('.dataTables_filter');
-        filterHeader.html('');
+        const filterHeader = container.find('div:first');
+        const cnt = $('<div>', {class: 'col-md-auto'});
 
         {% for format, label in allowExport %}
             const exportBtn{{ format }} = $('<a href="#">{{ label }}</a>').on('click', function (e) {
                 e.preventDefault();
                 window.open('{{ path('datagrid_export', {name: name, format: format}) }}?' + $.param(table.ajax.params()), '_blank');
             });
-            filterHeader.append(exportBtn{{ format }});
-            filterHeader.append('&nbsp;&nbsp;');
+            cnt.append(exportBtn{{ format }});
+            cnt.append('&nbsp;&nbsp;');
         {% endfor %}
+
+        filterHeader.append(cnt);
     });
 </script>
