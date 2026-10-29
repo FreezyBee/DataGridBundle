@@ -96,3 +96,23 @@ public function list(DataGridFactory $dataGridFactory): Response
 ```twig
 {{ datagrid(grid) }}
 ```
+
+
+Translations
+------------
+
+All grid chrome (pagination, search, filter placeholders, the boolean column labels, …) is
+translated through the `datagrid` domain (`translations/datagrid.*.yaml`). Czech (`cs`) and
+English (`en`) are bundled.
+
+To add another locale or override a message, drop a file for the same `datagrid` domain into your
+own `translations/` directory, e.g. `translations/datagrid.de.yaml`:
+
+```yaml
+grid.search: 'Suchen:'
+grid.zeroRecords: 'Keine passenden Einträge gefunden'
+```
+
+You only need to provide the keys you want to override – Symfony merges your file with the
+bundle's for the rest. See `translations/datagrid.en.yaml` in this repository for the full list of
+keys.
