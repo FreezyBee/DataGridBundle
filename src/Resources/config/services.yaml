@@ -1,8 +1,6 @@
 services:
   FreezyBee\DataGridBundle\DataGridFactory:
     autowire: true
-    arguments:
-      $container: '@service_container'
 
   FreezyBee\DataGridBundle\Export\:
     resource: '../../Export/*'
@@ -13,7 +11,11 @@ services:
     autowire: true
     tags: ['twig.extension']
 
-  FreezyBee\DataGridBundle\Controller\DataGridController:
+  FreezyBee\DataGridBundle\Controller\DataGridAjaxController:
+    autowire: true
+    tags: ['controller.service_arguments']
+
+  FreezyBee\DataGridBundle\Controller\DataGridExportController:
     autowire: true
     tags: ['controller.service_arguments']
 

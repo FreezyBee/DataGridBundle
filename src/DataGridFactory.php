@@ -5,51 +5,38 @@ declare(strict_types=1);
 namespace FreezyBee\DataGridBundle;
 
 use FreezyBee\DataGridBundle\Export\DataGridExporterInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 use Twig\Environment;
 
 /**
  * @author Jakub Janata <jakubjanata@gmail.com>
  */
-class DataGridFactory
+final readonly class DataGridFactory
 {
-    /** @var ContainerInterface */
-    private $container;
-
-    /** @var Environment */
-    private $engine;
-
-    /** @var DataGridExporterInterface */
-    private $exporter;
-
-    /**
-     * @param ContainerInterface $container
-     * @param Environment $engine
-     * @param DataGridExporterInterface $exporter
-     */
     public function __construct(
-        ContainerInterface $container,
-        Environment $engine,
-        DataGridExporterInterface $exporter
+        private ContainerInterface $typeLocator,
+        private Environment $engine,
+        private DataGridExporterInterface $exporter
     ) {
-        $this->container = $container;
-        $this->engine = $engine;
-        $this->exporter = $exporter;
     }
 
     /**
-     * @param string $className
+     * @param string $name grid name, or grid type class name
      * @return DataGrid
      */
-    public function create(string $className): DataGrid
+    public function create(string $name): DataGrid
     {
+        if (class_exists($name)) {
+            $name = DataGridTypeNameResolver::resolve($name);
+        }
+
         /** @var DataGridTypeInterface $gridType */
-        $gridType = $this->container->get($className);
+        $gridType = $this->typeLocator->get($name);
 
         $builder = new DataGridBuilder();
         $gridType->buildGrid($builder);
         $config = $builder->generateConfig();
 
-        return new DataGrid($this->engine, $this->exporter, $config->getDataSource(), $config, $className);
+        return new DataGrid($this->engine, $this->exporter, $config->getDataSource(), $config, $name);
     }
 }

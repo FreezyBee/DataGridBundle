@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace FreezyBee\DataGridBundle\Tests\E2E;
 
+use FreezyBee\DataGridBundle\DataGridTypeNameResolver;
 use FreezyBee\DataGridBundle\Tests\App\BeeGridType;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -18,7 +19,7 @@ class SmokeTest extends WebTestCase
     {
         $client = self::createClient();
 
-        $client->request('GET', '/datagrid/ajax/' . BeeGridType::class, self::getQuery());
+        $client->request('GET', '/datagrid/ajax/' . BeeGridType::NAME, self::getQuery());
         self::assertResponseIsSuccessful();
 
         $content = (string) $client->getResponse()->getContent();
@@ -54,7 +55,7 @@ class SmokeTest extends WebTestCase
     {
         /** @var KernelBrowser $client */
         $client = self::createClient();
-        $client->request('GET', '/datagrid/export/csv/' . BeeGridType::class, self::getQuery());
+        $client->request('GET', '/datagrid/export/' . BeeGridType::NAME . '.csv', self::getQuery());
 
         $expected = "A;B;D\n";
         $expected .= "name9;1.3.2019;Yes\n";
@@ -79,8 +80,6 @@ class SmokeTest extends WebTestCase
             return $header;
         }
 
-        // phpstan hack
-        self::assertIsString($header);
         return '';
     }
 

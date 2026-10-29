@@ -1,5 +1,5 @@
 {% trans_default_domain 'datagrid' %}
-<table class="table js-datagrid-table" data-datagrid="{{ name|replace({'\\': '_'}) }}">
+<table class="table js-datagrid-table" data-datagrid="{{ name }}">
     <thead>
     <tr>
         {% for column in columns %}
@@ -28,7 +28,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const table = $('.js-datagrid-table[data-datagrid="{{ name|replace({'\\': '_'}) }}"]').DataTable({
+        const table = $('.js-datagrid-table[data-datagrid="{{ name }}"]').DataTable({
             processing: true,
             serverSide: true,
             pageLength: {{ default.perPage }},

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace FreezyBee\DataGridBundle\Tests\App;
 
 use DateTime;
+use FreezyBee\DataGridBundle\Attribute\AsDataGridType;
 use FreezyBee\DataGridBundle\DataGridBuilder;
 use FreezyBee\DataGridBundle\DataGridTypeInterface;
 use FreezyBee\DataGridBundle\DataSource\ArrayDataSource;
@@ -13,8 +14,11 @@ use Symfony\Component\PropertyAccess\PropertyAccessor;
 /**
  * @author Jakub Janata <jakubjanata@gmail.com>
  */
+#[AsDataGridType(self::NAME)]
 class BeeGridType implements DataGridTypeInterface
 {
+    public const string NAME = 'bee-grid';
+
     /**
      * @param DataGridBuilder $builder
      */
