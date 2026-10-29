@@ -42,7 +42,7 @@ class Kernel extends \Symfony\Component\HttpKernel\Kernel
      */
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
-        $routes->import(__DIR__ . '/../../src/Resources/config/routes.php');
+        $routes->import(__DIR__ . '/../../config/routes.php');
         $routes->add('/', AppController::class . '::index');
     }
 

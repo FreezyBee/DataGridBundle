@@ -34,7 +34,7 @@ Import the bundle's routes in `config/routes.yaml`:
 
 ```yaml
 freezy_bee_data_grid:
-    resource: '@FreezyBeeDataGridBundle/Resources/config/routes.php'
+    resource: '@FreezyBeeDataGridBundle/config/routes.php'
 ```
 
 
